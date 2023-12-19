@@ -102,8 +102,40 @@ class Program
     {
         // uso de ejemplos
         Perro miPerro = new Perro("Firulais", 5, Temperamento.Amable, "Juan");
-        miPerro.HacerRuido(); // escribe el sonido del animal
+        miPerro.HacerRuido(); // Escribe el sonido del animal
         miPerro.MoverCola(); // Llama al metodo para que el perro mueve la cola
         miPerro.CambiarDueño("Armando"); // metodo de la mascota Firulais ha cambiado su dueño a x persona
+
+        while (true)
+        {
+            Console.WriteLine("1 - Administración del centro");
+            Console.WriteLine("2 - Administración de adopciones");
+            Console.WriteLine("3 - Administración de bienestar animal");
+            Console.WriteLine("4 - Simulación de interacciones");
+            Console.WriteLine("5 - Finalizar programa");
+
+            var option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    AdminCenter();
+                    break;
+                case "2":
+                    // impementear adopciones ADMINI
+                    break;
+                case "3":
+                    // implementarr bienestar de animalotes ADMINI
+                    break;
+                case "4":
+                    // interaccion simulaciones 
+                    break;
+                case "5":
+                    return;
+                default:
+                    Console.WriteLine("Opción no válida");
+                    break;
+            }
+        }
     }
-}
+
