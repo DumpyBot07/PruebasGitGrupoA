@@ -178,6 +178,65 @@ class Program
             }
         }
     }
-       
+       static void AdminPeople()//administracion de las personas
+    {
+        while (true)
+        {
+            Console.WriteLine("1 - Mostrar todas la personas registradas");
+            Console.WriteLine("2 - Registrar persona nueva");
+            Console.WriteLine("3 - Buscar personas por nombre");
+            Console.WriteLine("4 - Examinar persona");
+            Console.WriteLine("5 - Regresar al menú anterior");
+
+            var option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    foreach (var person in registeredPersons)
+                    {
+                        Console.WriteLine($"ID: {person.Id}, Name: {person.Name}");
+                    }
+                    break;
+                case "2":
+                    Console.WriteLine("Ingresa nombre d la persona:");
+                    var name = Console.ReadLine();
+                    var newPerson = new Person(name);
+                    registeredPersons.Add(newPerson);
+                    Console.WriteLine($"{name} ha sido registrada.");
+                    break;
+                case "3":
+                    Console.WriteLine("Buscar nombre:");
+                    var searchName = Console.ReadLine();
+                    var foundPersons = registeredPersons.Where(p => p.Name.Contains(searchName)).ToList();
+                    foreach (var person in foundPersons)
+                    {
+                        Console.WriteLine($"ID: {person.Id}, Name: {person.Name}");
+                    }
+                    break;
+                case "4":
+                    Console.WriteLine("Ingresa el ID de la persona:");
+                    var personId = Console.ReadLine();
+                    var person = registeredPersons.FirstOrDefault(p => p.Id == personId);
+                    if (person != null)
+                    {
+                        Console.WriteLine($"ID: {person.Id}, Name: {person.Name}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No se encontró ninguna persona con el ID proporcionado.");
+                    }
+                    break;
+                case "5":
+                    return;
+                default:
+                    Console.WriteLine("Opción no válida");
+                    break;
+
+            }
+
+        }
+    }
+
 }
 
