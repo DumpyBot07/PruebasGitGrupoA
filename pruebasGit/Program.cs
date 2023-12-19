@@ -1,6 +1,6 @@
 ﻿using System;
 
-// Interface for a pet
+// Interfaz para mascota
 public interface IMascota
 {
     string Id { get; } 
@@ -13,7 +13,7 @@ public interface IMascota
     void CambiarDueño(string nuevoDueño); 
 }
 
-// Enumerations for species and temperament
+//enumeracion de mascota
 public enum Especie
 {
     Perro,
