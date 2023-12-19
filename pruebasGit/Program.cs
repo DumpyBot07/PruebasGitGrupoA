@@ -94,3 +94,16 @@ public class Perro : Mascota
         Console.WriteLine("Grrrr");
     }
 }
+
+//El metodo principal para ejecutar el codigo
+class Program
+{
+    static void Main()
+    {
+        // uso de ejemplos
+        Perro miPerro = new Perro("Firulais", 5, Temperamento.Amable, "Juan");
+        miPerro.HacerRuido(); // escribe el sonido del animal
+        miPerro.MoverCola(); // Llama al metodo para que el perro mueve la cola
+        miPerro.CambiarDueño("Armando"); // metodo de la mascota Firulais ha cambiado su dueño a x persona
+    }
+}
