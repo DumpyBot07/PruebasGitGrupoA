@@ -62,3 +62,35 @@ public abstract class Mascota : IMascota
         Temperamento = temperamento;
         Dueño = dueño;
     }
+public abstract void HacerRuido();
+
+    public void CambiarDueño(string nuevoDueño)
+    {
+        Console.WriteLine($"La mascota {Nombre} ha cambiado su dueño a {nuevoDueño}{Environment.NewLine}");
+        Dueño = nuevoDueño;
+    }
+}
+
+// clase de guauguau q hereda por mascota
+public class Perro : Mascota
+{
+    public Perro(string nombre, int edad, Temperamento temperamento, string dueño) 
+        : base(nombre, edad, temperamento, dueño)
+    {
+    }
+
+    public override void HacerRuido()
+    {
+        Console.WriteLine("Guau guau");
+    }
+
+    public void MoverCola()
+    {
+        Console.WriteLine("El perro mueve la cola");
+    }
+
+    public void Gruñir()
+    {
+        Console.WriteLine("Grrrr");
+    }
+}
