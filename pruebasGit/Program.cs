@@ -43,10 +43,22 @@ public abstract class Mascota : IMascota
         {
             if (value < 0)
             {
-                throw new ArgumentException("Age cannot be negative.");
+                throw new ArgumentException("La edad no puede ser negativa.");
             }
             _edad = value;
         }
     }
     public Temperamento Temperamento { get; set; }
     public string Dueño { get; set; }
+
+
+
+ public Mascota(string nombre, int edad, Temperamento temperamento, string dueño)
+    {
+        contadorGlobal++;
+        Id = $"Mascota-{contadorGlobal}";
+        Nombre = nombre;
+        Edad = edad;
+        Temperamento = temperamento;
+        Dueño = dueño;
+    }
