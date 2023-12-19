@@ -2,33 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class Person
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+// Clase Person
+public class Persona
 {
     private static int counter = 0;
-    public string Id {get; }
-    public string Name{get; set;}
-    public Person(string name){
+    public string Id { get; }
+    public string Name { get; set; }
+
+    public Persona(string name)
+    {
         counter++;
         Id = $"Person{counter}";
         Name = name;
     }
-} 
-// Interfaz para mascota
-public interface IMascota
-{
-
-    string Id { get; } 
-    string Nombre { get; set; } 
-    int Edad { get; set; } 
-    Temperamento Temperamento { get; set; } 
-    string Dueño { get; set; } 
-
-    void HacerRuido(); 
-    void CambiarDueño(string nuevoDueño); 
 }
 
+// Interfaz IMascota
+public interface IMascota
+{
+    string Id { get; }
+    string Nombre { get; set; }
+    int Edad { get; set; }
+    Temperamento Temperamento { get; set; }
+    string Dueño { get; set; }
 
+    void HacerRuido();
+    void CambiarDueño(string nuevoDueño);
+}
 
+// Enumeración Temperamento
 public enum Temperamento
 {
     Amable,
@@ -36,11 +42,10 @@ public enum Temperamento
     Agresivo
 }
 
-// tipo de papumascota
+// Clase abstracta Mascota
 public abstract class Mascota : IMascota
 {
     private static int contadorGlobal = 0;
-
     public string Id { get; }
     public string Nombre { get; set; }
     private int _edad;
@@ -59,9 +64,7 @@ public abstract class Mascota : IMascota
     public Temperamento Temperamento { get; set; }
     public string Dueño { get; set; }
 
-
-
- public Mascota(string nombre, int edad, Temperamento temperamento, string dueño)
+    public Mascota(string nombre, int edad, Temperamento temperamento, string dueño)
     {
         contadorGlobal++;
         Id = $"Mascota-{contadorGlobal}";
@@ -70,7 +73,8 @@ public abstract class Mascota : IMascota
         Temperamento = temperamento;
         Dueño = dueño;
     }
-public abstract void HacerRuido();
+
+    public abstract void HacerRuido();
 
     public void CambiarDueño(string nuevoDueño)
     {
@@ -79,12 +83,10 @@ public abstract void HacerRuido();
     }
 }
 
-
-
-// clase de guauguau q hereda por mascota
+// Clase Perro que hereda de Mascota
 public class Perro : Mascota
 {
-    public Perro(string nombre, int edad, Temperamento temperamento, string dueño) 
+    public Perro(string nombre, int edad, Temperamento temperamento, string dueño)
         : base(nombre, edad, temperamento, dueño)
     {
     }
@@ -93,32 +95,32 @@ public class Perro : Mascota
     {
         Console.WriteLine("Guau guau");
     }
+}
 
-    public void MoverCola()
+// clase Adopcion
+public class Adopcion
+{
+    public Persona Persona { get; set; }
+    public Mascota Mascota { get; set; }
+
+    public Adopcion(Persona persona, Mascota mascota)
     {
-        Console.WriteLine("Mueve la cola");
+        Persona = persona;
+        Mascota = mascota;
     }
-
-    public void Gruñir()
-    {
-        Console.WriteLine("Grrrr");
-    }
-
 }
 
 
 
-//El metodo principal para ejecutar el codigo
 class Program
 {
-    static List<Person> registeredPersons = new List<Person>();
+    static List<Persona> personasRegistradas = new List<Persona>();
+    static List<Mascota> registeredPets = new List<Mascota>();
+    static List<Adopcion> registeredAdoptions = new List<Adopcion>();
+
     static void Main()
     {
-        // uso de ejemplos
-        Perro miPerro = new Perro("Pugnacio", 5, Temperamento.Amable, "Jose");
-        miPerro.HacerRuido(); // Escribe el sonido del animal
-        miPerro.MoverCola(); // Llama al metodo para que el perro mueve la cola
-        miPerro.CambiarDueño("Armando"); // metodo de la mascota Firulais ha cambiado su dueño a x persona
+       
 
         while (true)
         {
@@ -153,6 +155,7 @@ class Program
         }
     }
 
+
     static void AdminCenter()
     {
         while (true)
@@ -163,7 +166,8 @@ class Program
 
             var option = Console.ReadLine();
 
-            switch (option){
+            switch (option)
+            {
                 case "1":
                     AdminPeople();
                     break;
@@ -173,12 +177,13 @@ class Program
                 case "3":
                     return;
                 default:
-                    Console.WriteLine("Opción no papu valida");
+                    Console.WriteLine("Opción no válida");
                     break;
             }
         }
     }
-       static void AdminPeople()//administracion de las personas
+
+    static void AdminPeople()
     {
         while (true)
         {
@@ -193,31 +198,31 @@ class Program
             switch (option)
             {
                 case "1":
-                    foreach (var person in registeredPersons)
+                    foreach (var Persona in personasRegistradas)
                     {
-                        Console.WriteLine($"ID: {person.Id}, Name: {person.Name}");
+                        Console.WriteLine($"ID: {Persona.Id}, Name: {Persona.Name}");
                     }
                     break;
                 case "2":
-                    Console.WriteLine("Ingresa nombre d la persona:");
+                    Console.WriteLine("Ingresa nombre de la persona:");
                     var name = Console.ReadLine();
-                    var newPerson = new Person(name);
-                    registeredPersons.Add(newPerson);
+                    var newPerson = new Persona(name);
+                    personasRegistradas.Add(newPerson);
                     Console.WriteLine($"{name} ha sido registrada.");
                     break;
                 case "3":
                     Console.WriteLine("Buscar nombre:");
-                    var searchName = Console.ReadLine();
-                    var foundPersons = registeredPersons.Where(p => p.Name.Contains(searchName)).ToList();
-                    foreach (var person in foundPersons)
+                    var buscarNombre = Console.ReadLine();
+                    var encontrarPersonas = personasRegistradas.Where(p => p.Name.Contains(buscarNombre)).ToList();
+                    foreach (var persona in encontrarPersonas)
                     {
-                        Console.WriteLine($"ID: {person.Id}, Name: {person.Name}");
+                        Console.WriteLine($"ID: {persona.Id}, Name: {persona.Name}");
                     }
                     break;
                 case "4":
                     Console.WriteLine("Ingresa el ID de la persona:");
                     var personId = Console.ReadLine();
-                    var person = registeredPersons.FirstOrDefault(p => p.Id == personId);
+                    var person = personasRegistradas.FirstOrDefault(p => p.Id == personId);
                     if (person != null)
                     {
                         Console.WriteLine($"ID: {person.Id}, Name: {person.Name}");
@@ -232,22 +237,19 @@ class Program
                 default:
                     Console.WriteLine("Opción no válida");
                     break;
-
             }
-
         }
     }
 
-    static List<Mascota> registeredPets = new List<Mascota>();
 
     static void AdminMascotas()
     {
         while (true)
         {
-            Console.WriteLine("1 - Mostrar todas las mascotas registradas");
-            Console.WriteLine("2 - Registrar nueva mascota");
-            Console.WriteLine("3 - Buscar mascotas por nombre");
-            Console.WriteLine("4 - Examinar mascota");
+            Console.WriteLine("1 - Mostrar todas las adopciones");
+            Console.WriteLine("2 - Registrar nueva adopción");
+            Console.WriteLine("3 - Buscar adopciones por persona");
+            Console.WriteLine("4 - Buscar adopciones por mascota");
             Console.WriteLine("5 - Regresar al menú anterior");
 
             var option = Console.ReadLine();
@@ -255,44 +257,49 @@ class Program
             switch (option)
             {
                 case "1":
-                    foreach (var pet in registeredPets)
+                    foreach (var adoption in registeredAdoptions)
                     {
-                        Console.WriteLine($"ID: {pet.Id}, Nombre: {pet.Nombre}, Dueño: {pet.Dueño}");
+                        Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
                     }
                     break;
                 case "2":
+                    Console.WriteLine("Ingrese el nombre de la persona:");
+                    string personName = Console.ReadLine();
+                    Persona person = personasRegistradas.FirstOrDefault(p => p.Name == personName);
+                    if (person == null)
+                    {
+                        Console.WriteLine("Persona no encontrada.");
+                        break;
+                    }
+
                     Console.WriteLine("Ingrese el nombre de la mascota:");
-                    var name = Console.ReadLine();
-                    Console.WriteLine("Ingrese la edad de la mascota:");
-                    var age = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Ingrese el temperamento de la mascota (1 - Amable, 2 - Nervioso, 3 - Agresivo):");
-                    var temperamento = (Temperamento)int.Parse(Console.ReadLine());
-                    Console.WriteLine("Ingrese el dueño de la mascota:");
-                    var owner = Console.ReadLine();
-                    var newPet = new Perro(name, age, temperamento, owner); // Aquí se crea un perro, pero puedes pedir al usuario qué tipo de mascota quiere crear
-                    registeredPets.Add(newPet);
-                    Console.WriteLine($"Mascota {name} ha sido registrada.");
+                    string petName = Console.ReadLine();
+                    Mascota pet = registeredPets.FirstOrDefault(p => p.Nombre == petName);
+                    if (pet == null)
+                    {
+                        Console.WriteLine("Mascota no encontrada.");
+                        break;
+                    }
+
+                    registeredAdoptions.Add(new Adopcion(person, pet));
+                    Console.WriteLine("Adopción registrada exitosamente.");
                     break;
                 case "3":
-                    Console.WriteLine("Ingrese el nombre para buscar:");
-                    var searchName = Console.ReadLine();
-                    var foundPets = registeredPets.Where(p => p.Nombre.Contains(searchName)).ToList();
-                    foreach (var pet in foundPets)
+                    Console.WriteLine("Ingrese el nombre de la persona:");
+                    string searchPersonName = Console.ReadLine();
+                    var adoptionsByPerson = registeredAdoptions.Where(a => a.Persona.Name == searchPersonName);
+                    foreach (var adoption in adoptionsByPerson)
                     {
-                        Console.WriteLine($"ID: {pet.Id}, Nombre: {pet.Nombre}, Dueño: {pet.Dueño}");
+                        Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
                     }
                     break;
                 case "4":
-                    Console.WriteLine("Ingrese el ID de la mascota:");
-                    var petId = Console.ReadLine();
-                    var pet = registeredPets.FirstOrDefault(p => p.Id == petId);
-                    if (pet != null)
+                    Console.WriteLine("Ingrese el nombre de la mascota:");
+                    string searchPetName = Console.ReadLine();
+                    var adoptionsByPet = registeredAdoptions.Where(a => a.Mascota.Nombre == searchPetName);
+                    foreach (var adoption in adoptionsByPet)
                     {
-                        Console.WriteLine($"ID: {pet.Id}, Nombre: {pet.Nombre}, Dueño: {pet.Dueño}");
-                    }
-                    else
-                    {
-                        Console.WriteLine("No se encontró ninguna mascota con ese ID proporcionado.");
+                        Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
                     }
                     break;
                 case "5":
@@ -304,107 +311,35 @@ class Program
         }
     }
 
+    
+
     static void AdminAdopciones()
-    {
-    while (true)
-    {
-        Console.WriteLine("1 - Mostrar todas las adopciones");
-        Console.WriteLine("2 - Registrar nueva adopción");
-        Console.WriteLine("3 - Buscar adopciones por persona");
-        Console.WriteLine("4 - Buscar adopciones por mascota");
-        Console.WriteLine("5 - Regresar al menú anterior");
-
-        var option = Console.ReadLine();
-
-        switch (option)
-        {
-            case "1":
-                foreach (var adoption in registeredAdoptions)
-                {
-                    Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
-                }
-                break;
-            case "2":
-            Console.WriteLine("Ingrese el nombre de la persona:");
-            string personName = Console.ReadLine();
-            Person person = registeredPersons.FirstOrDefault(p => p.Name == personName);
-            if (person == null)
-            {
-                Console.WriteLine("Persona no encontrada.");
-                break;
-            }
-
-            Console.WriteLine("Ingrese el nombre de la mascota:");
-            string petName = Console.ReadLine();
-            Mascota pet = registeredPets.FirstOrDefault(p => p.Nombre == petName);
-            if (pet == null)
-            {
-                Console.WriteLine("Mascota no encontrada.");
-                break;
-            }
-
-            registeredAdoptions.Add(new Adopcion(person, pet));
-            Console.WriteLine("Adopción registrada exitosamente.");
-            break;
-        case "3":
-            Console.WriteLine("Ingrese el nombre de la persona:");
-            string searchPersonName = Console.ReadLine();
-            var adoptionsByPerson = registeredAdoptions.Where(a => a.Persona.Name == searchPersonName);
-            foreach (var adoption in adoptionsByPerson)
-            {
-                Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
-            }
-            break;
-        case "4":
-            Console.WriteLine("Ingrese el nombre de la mascota:");
-            string searchPetName = Console.ReadLine();
-            var adoptionsByPet = registeredAdoptions.Where(a => a.Mascota.Nombre == searchPetName);
-            foreach (var adoption in adoptionsByPet)
-            {
-                Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
-            }
-            break;
-            case "5":
-                return;
-            default:
-                Console.WriteLine("Opción no válida");
-                break;
-        }
-
-
-    static void AdminBienestarAnimal()
     {
         while (true)
         {
-            Console.WriteLine("1 - Mostrar todas las mascotas y su bienestar");
-            Console.WriteLine("2 - Mejorar bienestar de mascota");
-            Console.WriteLine("3 - Regresar al menú anterior");
+            Console.WriteLine("1 - Mostrar todas las adopciones");
+            Console.WriteLine("2 - Registrar nueva adopción");
+            Console.WriteLine("3 - Buscar adopciones por persona");
+            Console.WriteLine("4 - Buscar adopciones por mascota");
+            Console.WriteLine("5 - Regresar al menú anterior");
 
             var option = Console.ReadLine();
 
             switch (option)
             {
                 case "1":
-                    foreach (var pet in registeredPets)
-                    {
-                        Console.WriteLine($"ID: {pet.Id}, Nombre: {pet.Nombre}, Dueño: {pet.Dueño}, Temperamento: {pet.Temperamento}");
-                    }
+                    MostrarAdopciones();
                     break;
                 case "2":
-                    Console.WriteLine("Ingrese el ID de la mascota:");
-                    var petId = Console.ReadLine();
-                    var pet = registeredPets.FirstOrDefault(p => p.Id == petId);
-                    if (pet != null)
-                    {
-                        pet.Temperamento = Temperamento.Amable; // Mejora el bienestar de la mascota cambiando su temperamento a Amable
-                        Console.WriteLine($"El bienestar de {pet.Nombre} ha sido mejorado.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("No se encontró ninguna mascota con ese ID proporcionado.");
-                    }
+                    RegistrarAdopcion();
                     break;
                 case "3":
+                    BuscarAdopcionesPorPersona();
+                    break;
+                case "4":
+                    BuscarAdopcionesPorMascota();
+                    break;
+                case "5":
                     return;
                 default:
                     Console.WriteLine("Opción no válida");
@@ -413,6 +348,53 @@ class Program
         }
     }
 
+
+
+
+
+     static void AdminBienestarAnimal()
+            {
+                while (true)
+                {
+                    Console.WriteLine("1 - Mostrar todas las mascotas y su bienestar");
+                    Console.WriteLine("2 - Mejorar bienestar de mascota");
+                    Console.WriteLine("3 - Regresar al menú anterior");
+
+                    var option = Console.ReadLine();
+
+                    switch (option)
+                    {
+                        case "1":
+                            foreach (var Mascota in registeredPets)
+                            {
+                                Console.WriteLine($"ID: {Mascota.Id}, Nombre: {Mascota.Nombre}, Dueño: {Mascota.Dueño}, Temperamento: {Mascota.Temperamento}");
+                            }
+                            break;
+                        case "2":
+                            Console.WriteLine("Ingrese el ID de la mascota:");
+                            var MascotaId = Console.ReadLine();
+                            var mascota = registeredPets.FirstOrDefault(p => p.Id == MascotaId);
+                            if (mascota != null)
+                            {
+                                mascota.Temperamento = Temperamento.Amable; // Mejora el bienestar de la mascota cambiando su temperamento a Amable
+                                Console.WriteLine($"El bienestar de {mascota.Nombre} ha sido mejorado.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("No se encontró ninguna mascota con ese ID proporcionado.");
+                            }
+                            break;
+                        case "3":
+                            return;
+                        default:
+                            Console.WriteLine("Opción no válida");
+                            break;
+                    }
+                }
+            }
+
+
+    
     static void SimularInteracciones()
     {
         while (true)
@@ -461,5 +443,72 @@ class Program
             }
         }
     }
-}
 
+
+    static void MostrarAdopciones()
+    {
+        foreach (var adoption in registeredAdoptions)
+        {
+            Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
+        }
+    }
+
+    static void RegistrarAdopcion()
+    {
+        Console.WriteLine("Ingrese el nombre de la persona:");
+        string personName = Console.ReadLine();
+        Persona person = personasRegistradas.FirstOrDefault(p => p.Name == personName);
+        if (person == null)
+        {
+            Console.WriteLine("Persona no encontrada.");
+            return;
+        }
+
+        Console.WriteLine("Ingrese el nombre de la mascota:");
+        string petName = Console.ReadLine();
+        Mascota pet = registeredPets.FirstOrDefault(p => p.Nombre == petName);
+        if (pet == null)
+        {
+            Console.WriteLine("Mascota no encontrada.");
+            return;
+        }
+
+        if (pet.Dueño != null)
+        {
+            Console.WriteLine("La mascota ya tiene un dueño.");
+            return;
+        }
+
+        registeredAdoptions.Add(new Adopcion(person, pet));
+        pet.CambiarDueño(person.Name);
+        Console.WriteLine("Adopción registrada exitosamente.");
+    }
+
+    static void BuscarAdopcionesPorPersona()
+    {
+        Console.WriteLine("Ingrese el nombre de la persona:");
+        string searchPersonName = Console.ReadLine();
+        var adoptionsByPerson = registeredAdoptions.Where(a => a.Persona.Name == searchPersonName);
+        foreach (var adoption in adoptionsByPerson)
+        {
+            Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
+        }
+    }
+
+    static void BuscarAdopcionesPorMascota()
+    {
+        Console.WriteLine("Ingrese el nombre de la mascota:");
+        string searchPetName = Console.ReadLine();
+        var adoptionsByPet = registeredAdoptions.Where(a => a.Mascota.Nombre == searchPetName);
+        foreach (var adoption in adoptionsByPet)
+        {
+            Console.WriteLine($"Persona: {adoption.Persona.Name}, Mascota: {adoption.Mascota.Nombre}");
+        }
+    }
+
+    // Método MoverCola agregado a la clase Perro
+    public void MoverCola()
+    {
+        Console.WriteLine("El perro mueve la cola.");
+    }
+}
