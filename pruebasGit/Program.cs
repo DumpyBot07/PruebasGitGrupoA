@@ -1,6 +1,6 @@
 ﻿using System;
 
-// Interface for a pet
+
 public interface IMascota
 {
     string Id { get; } 
@@ -12,4 +12,8 @@ public interface IMascota
     void HacerRuido(); 
     void CambiarDueño(string nuevoDueño); 
 }
+
+
+
+
 
